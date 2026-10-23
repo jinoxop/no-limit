@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Joker</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;900&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Montserrat', sans-serif;
+        }
+
+        body {
+            background-color: #f2f2f2;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            overflow: hidden;
+        }
+
+        .card {
+            width: 900px;
+            height: 600px;
+            background-color: #ffffff;
+            border-radius: 30px;
+            position: relative;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.05);
+            overflow: hidden;
+        }
+
+        /* --- Navbar --- */
+        .navbar {
+            position: absolute;
+            top: 40px;
+            left: 60px;
+            display: flex;
+            align-items: center;
+            gap: 40px;
+            z-index: 10;
+        }
+
+        .logo {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            border: 2px solid #333;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-weight: 900;
+            font-size: 14px;
+            letter-spacing: -1px;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 30px;
+            list-style: none;
+        }
+
+        .nav-links li {
+            font-size: 12px;
+            font-weight: 600;
+            color: #333;
+            cursor: pointer;
+        }
+
+        /* --- Background Text --- */
+        .bg-text {
+            position: absolute;
+            top: -30px;
+            right: -20px;
+            font-size: 200px;
+            font-weight: 900;
+            color: #000;
+            opacity: 0.03;
+            letter-spacing: -5px;
+            z-index: 1;
+            pointer-events: none;
+        }
+
+        /* --- Left Content --- */
+        .content-left {
+            position: absolute;
+            top: 220px;
+            left: 60px;
+            z-index: 10;
+        }
+
+        .title {
+            font-size: 80px;
+            font-weight: 900;
+            color: #1a1a1a;
+            letter-spacing: -2px;
+            line-height: 1;
+        }
+
+        .subtitle {
+            font-size: 12px;
+            font-weight: 600;
+            color: #b0b0b0;
+            margin-top: 10px;
+        }
+
+        .divider {
+            width: 4px;
+            height: 4px;
+            background-color: #b0b0b0;
+            border-radius: 50%;
+            margin-top: 50px;
+        }
+
+        .info-section {
+            margin-top: 50px;
+        }
+
+        .info-title {
+            font-size: 14px;
+            font-weight: 700;
+            color: #1a1a1a;
+            margin-bottom: 10px;
+        }
+
+        .info-desc {
+            font-size: 10px;
+            font-weight: 600;
+            color: #777;
+            line-height: 1.6;
+            width: 250px;
+        }
+
+        .scroll-indicator {
+            position: absolute;
+            bottom: -120px;
+            left: 0;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 10px;
+            font-weight: 600;
+            color: #777;
+        }
+
+        .scroll-icon {
+            width: 14px;
+            height: 20px;
+            border: 1.5px solid #777;
+            border-radius: 7px;
+            position: relative;
+        }
+
+        .scroll-icon::before {
+            content: '';
+            position: absolute;
+            top: 4px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 2px;
+            height: 4px;
+            background-color: #777;
+            border-radius: 1px;
+        }
+
+        /* --- Center Image --- */
+        .joker-image {
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            height: 75%;
+            z-index: 5;
+            filter: grayscale(100%) contrast(1.1);
+            pointer-events: none;
+        }
+
+        /* --- Floating Tags --- */
+        .tag {
+            position: absolute;
+            background-color: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(5px);
+            padding: 12px 20px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 10px;
+            font-weight: 700;
+            color: #1a1a1a;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.05);
+            z-index: 15;
+        }
+
+        .tag-dot {
+            width: 5px;
+            height: 5px;
+            background-color: #1a1a1a;
+            border-radius: 50%;
+        }
+
+        .tag-intelligence {
+            top: 200px;
+            right: 180px;
+        }
+
+        .tag-unpredictability {
+            bottom: 220px;
+            right: 150px;
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 5px;
+        }
+
+        .tag-unpredictability span {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        /* --- Pagination --- */
+        .pagination {
+            position: absolute;
+            top: 50%;
+            right: 60px;
+            transform: translateY(-50%);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 15px;
+            z-index: 10;
+        }
+
+        .pag-num {
+            font-size: 10px;
+            font-weight: 700;
+            color: #999;
+        }
+
+        .dot {
+            width: 6px;
+            height: 6px;
+            background-color: #ccc;
+            border-radius: 50%;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .dot.active {
+            width: 12px;
+            height: 12px;
+            background-color: transparent;
+            border: 2px solid #1a1a1a;
+            position: relative;
+        }
+
+        .dot.active::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 4px;
+            height: 4px;
+            background-color: #1a1a1a;
+            border-radius: 50%;
+        }
+
+        /* --- Bottom Right Icon --- */
+        .bottom-icon {
+            position: absolute;
+            bottom: 40px;
+            right: 60px;
+            width: 40px;
+            height: 40px;
+            z-index: 10;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="card">
+        <!-- Background Text -->
+        <div class="bg-text">JOKER</div>
+
+        <!-- Navbar -->
+        <nav class="navbar">
+            <div class="logo">DC</div>
+            <ul class="nav-links">
+                <li>Home</li>
+                <li>Movie</li>
+                <li>About</li>
+                <li>Blog</li>
+            </ul>
+        </nav>
+
+        <!-- Left Content -->
+        <div class="content-left">
+            <div class="title">Joker</div>
+            <div class="subtitle">Published By DC</div>
+            <div class="divider"></div>
+            
+            <div class="info-section">
+                <div class="info-title">Power</div>
+                <div class="info-desc">
+                    Complete Unpredictability, Chaos Agent, Customized Weapons, Wields Toxin Which Causes Victims To Die Laughing
+                </div>
+            </div>
+
+            <div class="scroll-indicator">
+                <div class="scroll-icon"></div>
+                <span>Scroll Mouse</span>
+            </div>
+        </div>
+
+        <!-- Center Image (Using a high-quality placeholder URL for the Joker portrait) -->
+        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/f/f1/Joaquin_Phoenix_as_Joker_%282019%29.png/800px-Joaquin_Phoenix_as_Joker_%282019%29.png" alt="Joker" class="joker-image">
+
+        <!-- Floating Tags -->
+        <div class="tag tag-intelligence">
+            <div class="tag-dot"></div>
+            Intelligence
+        </div>
+
+        <div class="tag tag-unpredictability">
+            <span><div class="tag-dot"></div> Complete</span>
+            <span style="margin-left: 15px;">Unpredictability</span>
+        </div>
+
+        <!-- Pagination -->
+        <div class="pagination">
+            <div class="pag-num">01</div>
+            <div class="dot active"></div>
+            <div class="dot"></div>
+            <div class="dot"></div>
+            <div class="dot"></div>
+            <div class="dot"></div>
+            <div class="pag-num">05</div>
+        </div>
+
+        <!-- Bottom Right Icon -->
+        <svg class="bottom-icon" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M20 40 Q30 20 50 20 Q70 20 80 40 Q50 60 20 40Z" stroke="#1a1a1a" stroke-width="4" fill="white"/>
+            <circle cx="35" cy="35" r="4" fill="#1a1a1a"/>
+            <circle cx="65" cy="35" r="4" fill="#1a1a1a"/>
+            <path d="M30 50 Q50 70 70 50" stroke="#1a1a1a" stroke-width="4" fill="none"/>
+            <path d="M40 55 L45 65 M60 55 L55 65" stroke="#1a1a1a" stroke-width="2"/>
+        </svg>
+    </div>
+
+    <script>
+        // تفعيل النقاط الجانبية (Pagination) عند الضغط
+        document.querySelectorAll('.dot').forEach(dot => {
+            dot.addEventListener('click', function() {
+                document.querySelectorAll('.dot').forEach(d => d.classList.remove('active'));
+                this.classList.add('active');
+            });
+        });
+    </script>
+</body>
+</html>
